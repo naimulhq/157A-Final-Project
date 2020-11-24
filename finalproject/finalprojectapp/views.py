@@ -22,7 +22,12 @@ class YourViewName(APIView):
         if 'upload' in request.data:
             file_serializer = FileSerializer(data=request.data)
         if file_serializer.is_valid():
-            file_serializer.save()
-            return Response({'status:': 'Upload successful!'},status=status.HTTP_201_CREATED)
+            data = (file_serializer.validated_data)['file_content']
+            name = data.name
+            if(name.find('.csv') == -1):
+                return Response({'status': 'Wrong File Type. Upload only .csv files'},status=status.HTTP_201_CREATED)
+            else:
+                file_serializer.save()
+                return Response({'status': 'Upload successful!'},status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
