@@ -9,6 +9,7 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework import status
 from .models import FileModel
 from .serializers import FileSerializer
+
 class YourViewName(APIView):
     parser_classes = [JSONParser, FormParser, MultiPartParser]
     renderer_classes = [TemplateHTMLRenderer]
@@ -16,18 +17,25 @@ class YourViewName(APIView):
     # See Django REST Request class here:
     # https://www.django-rest-framework.org/api-guide/requests/
     def get(self, request):
-        return Response(status=status.HTTP_200_OK)
+        f = FileModel.objects.all()
+        return Response({'f': f, 'count':len(f)},status=status.HTTP_200_OK)
     def post(self, request):
         # Upload form
         if 'upload' in request.data:
             file_serializer = FileSerializer(data=request.data)
+        if 'delete' in request.data:
+            file_id = request.data['delete']
+            FileModel.objects.filter(id=file_id).delete()
+            f = FileModel.objects.all()
+            return Response({'f':f, 'count':len(f)},status=status.HTTP_200_OK)
         if file_serializer.is_valid():
             data = (file_serializer.validated_data)['file_content']
             name = data.name
+            f = FileModel.objects.all()
             if(name.find('.csv') == -1):
-                return Response({'status': 'Wrong File Type. Upload only .csv files'},status=status.HTTP_201_CREATED)
+                return Response({'status': 'Wrong File Type. Upload only .csv files','f': f,'count':len(f)},status=status.HTTP_201_CREATED)
             else:
                 file_serializer.save()
-                return Response({'status': 'Upload successful!'},status=status.HTTP_201_CREATED)
+                return Response({'status': 'Upload successful!','f': f,'count':len(f)},status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)

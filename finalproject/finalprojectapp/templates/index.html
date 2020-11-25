@@ -23,8 +23,30 @@
                 <b>{{ status }}</b>
             </form>
         </div>
+        <div class="col border-left">
+            <h5>Existing CSV</h5>
+                <table>
+                    {% if count == 0 %}
+                        <h5>No Files</h5>
+                    {% else %}
+                        {% for file in f %}
+                        <tr>
+                            <th>{{file.file_content}}</th>
+                            <th>
+                                <form method="post" id="delete" >
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary btn-danger" value="{{file.id}}" name='delete'>delete</button>
+                                </form>
+                            </th>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                </table>
+        </div>
     </div>
 </div>
+
+
 <hr/>
 
 
