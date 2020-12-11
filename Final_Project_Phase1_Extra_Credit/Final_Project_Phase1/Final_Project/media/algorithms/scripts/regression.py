@@ -120,148 +120,148 @@ def featureQualityCorr(data,prediciton,f1,name):
 
 
 
-random_state=40
-test_size=0.33
-path = pathlib.Path(__file__).parents[1]
-colNames, data = load_data(path/'saved_models//white_wine.csv')
-colNames, xs, ys = seperate_labels(colNames,data)
+# random_state=40
+# test_size=0.33
+# path = pathlib.Path(__file__).parents[1]
+# colNames, data = load_data(path/'saved_models//white_wine.csv')
+# colNames, xs, ys = seperate_labels(colNames,data)
 
-################################################## 1) ##################################################
-# plt.hist(ys)
-# plt.title("Histogram of Data")
-# plt.xlabel("Quality"), plt.ylabel("Quantity")
-# plt.show()
+# ################################################## 1) ##################################################
+# # plt.hist(ys)
+# # plt.title("Histogram of Data")
+# # plt.xlabel("Quality"), plt.ylabel("Quantity")
+# # plt.show()
 
-# h = np.zeros((10))
-# for i in range(np.size(ys)):
-#     h[ ys[i].astype(int)  ] += 1
+# # h = np.zeros((10))
+# # for i in range(np.size(ys)):
+# #     h[ ys[i].astype(int)  ] += 1
 
-# print("Quality\tQuanity")
-# for i in range(np.size(h)):
-#     print(i, "\t", h[i])
+# # print("Quality\tQuanity")
+# # for i in range(np.size(h)):
+# #     print(i, "\t", h[i])
 
     
-################################################## 2) ##################################################
+# ################################################## 2) ##################################################
 
-# colormap = plt.cm.cividis
-# correlation = getCorrelationMatrix(data,colNames)
-# sns.heatmap(correlation, cmap=colormap,annot = True)
-# plt.title("correlation of features")
-# plt.xlabel("features"), plt.ylabel("features")
-# plt.show()
+# # colormap = plt.cm.cividis
+# # correlation = getCorrelationMatrix(data,colNames)
+# # sns.heatmap(correlation, cmap=colormap,annot = True)
+# # plt.title("correlation of features")
+# # plt.xlabel("features"), plt.ylabel("features")
+# # plt.show()
 
 
-################################################## 3) ##################################################
+# ################################################## 3) ##################################################
 
-#feature = 0
-#for i in range(11):
-#    featureQualityCorr(xs,ys,feature,colNames[feature])
-#    feature +=1
+# #feature = 0
+# #for i in range(11):
+# #    featureQualityCorr(xs,ys,feature,colNames[feature])
+# #    feature +=1
     
 
-################################################## 6) ##################################################
+# ################################################## 6) ##################################################
 
-xtrain,xtest,ytrain,ytest = train_test_split2(xs,ys,test_size,random_state)
+# xtrain,xtest,ytrain,ytest = train_test_split2(xs,ys,test_size,random_state)
 
-# clfLR = LogisticRegression(random_state=random_state,dual=False,C=.2,penalty='l2',solver='newton-cg',max_iter=1000).fit(xtrain,ytrain)
-# ypred = np.round(clfLR.predict(xtest))
-# print("\nLogisticRegression")
-# print("Explained_Variance:\t",explained_variance_score(ytest,ypred))
-# print("CLF Score:\t\t",clfLR.score(xtest,ytest))
-# print("Accuracy Score:\t\t", accuracy_score(ytest,ypred))
-# scoreLR = measurePerformance(clfLR,xtest,ytest)
-# print("Confusion Matrix:\n",confusion_matrix(ytest,ypred))
-# colNames, data = load_data('unknowns.csv')
-# ypred = clfLR.predict(data)
-# write_data('scoreLR.csv', ypred)
+# # clfLR = LogisticRegression(random_state=random_state,dual=False,C=.2,penalty='l2',solver='newton-cg',max_iter=1000).fit(xtrain,ytrain)
+# # ypred = np.round(clfLR.predict(xtest))
+# # print("\nLogisticRegression")
+# # print("Explained_Variance:\t",explained_variance_score(ytest,ypred))
+# # print("CLF Score:\t\t",clfLR.score(xtest,ytest))
+# # print("Accuracy Score:\t\t", accuracy_score(ytest,ypred))
+# # scoreLR = measurePerformance(clfLR,xtest,ytest)
+# # print("Confusion Matrix:\n",confusion_matrix(ytest,ypred))
+# # colNames, data = load_data('unknowns.csv')
+# # ypred = clfLR.predict(data)
+# # write_data('scoreLR.csv', ypred)
 
-# clfMLP = MLPRegressor(hidden_layer_sizes=(150,2),activation='relu', solver='adam',alpha=0.001, max_iter=1000,learning_rate='constant',
-#                    learning_rate_init=0.001,random_state=random_state).fit(xtrain,ytrain)
-# ypred = np.round(clfMLP.predict(xtest))
-# print("\nMLPregressor")
-# print("Explained_Variance:\t",explained_variance_score(ytest,ypred))
-# print("CLF Score:\t\t",clfMLP.score(xtest,ytest))
-# print("Accuracy Score:\t\t",accuracy_score(ytest,ypred))
-# scoreMLP = measurePerformance(clfMLP,xtest,ytest)
-# print("Confusion Matrix:\n",confusion_matrix(ytest,ypred))
-# colNames, data = load_data('unknowns.csv')
-# ypred = clfLR.predict(data)
-# write_data('scoreMLP.csv', ypred)
+# # clfMLP = MLPRegressor(hidden_layer_sizes=(150,2),activation='relu', solver='adam',alpha=0.001, max_iter=1000,learning_rate='constant',
+# #                    learning_rate_init=0.001,random_state=random_state).fit(xtrain,ytrain)
+# # ypred = np.round(clfMLP.predict(xtest))
+# # print("\nMLPregressor")
+# # print("Explained_Variance:\t",explained_variance_score(ytest,ypred))
+# # print("CLF Score:\t\t",clfMLP.score(xtest,ytest))
+# # print("Accuracy Score:\t\t",accuracy_score(ytest,ypred))
+# # scoreMLP = measurePerformance(clfMLP,xtest,ytest)
+# # print("Confusion Matrix:\n",confusion_matrix(ytest,ypred))
+# # colNames, data = load_data('unknowns.csv')
+# # ypred = clfLR.predict(data)
+# # write_data('scoreMLP.csv', ypred)
 
-
-kernel = 1.0*RBF(1.0) + DotProduct() + WhiteKernel()
-
-# clfSVC = make_pipeline(StandardScaler(), SVC(C=1.5, gamma=1.5, kernel=kernel)).fit(xtrain,ytrain)
-# #clfSVC = svc(c=1.5, gamma=1.5, kernel='rbf', random_state=random_state).fit(xtrain,ytrain)
-# ypred = np.round(clfSVC.predict(xtest))
-# print("\nSVC")
-# print("Explained_Variance:\t",explained_variance_score(ytest,ypred))
-# print("CLF Score:\t\t",clfSVC.score(xtest,ytest))
-# print("Accuracy Score:\t\t",accuracy_score(ytest,ypred))
-# scoreSVC = measurePerformance(clfSVC,xtest,ytest)
-# print("Confusion Matrix:\n",confusion_matrix(ytest,ypred))
-# colNames, data = load_data('unknowns.csv')
-# ypred = clfSVC.predict(data)
-# write_data('scoreSVC.csv', ypred)
-
-clfSVR = make_pipeline(StandardScaler(), SVR(C=1.5, gamma=1.5, kernel=kernel)).fit(xtrain,ytrain)
-# clfSVR = svr(c=1.5, gamma=1.5, kernel='rbf').fit(xtrain,ytrain)
-#ypred = np.round(clfSVR.predict(xtest))
-# print("\nSVR")
-# print("Explained_Variance:\t",explained_variance_score(ytest,ypred))
-# print("CLF Score:\t\t",clfSVR.score(xtest,ytest))
-# print("Accuracy Score:\t\t",accuracy_score(ytest,ypred))
-# scoreSVR = measurePerformance(clfSVR,xtest,ytest)
-# print("Confusion Matrix:\n",confusion_matrix(ytest,ypred))
-# colNames, data = load_data('unknowns.csv')
-# ypred = clfSVR.predict(data)
-# write_data('scoreSVR.csv', ypred)
-
-# clfGPC = GaussianProcessClassifier(kernel=kernel,max_iter_predict=100,random_state=random_state).fit(xtrain,ytrain)
-# #clfGPC = gaussianprocessclassifier(random_state=random_state).fit(xtrain,ytrain)
-# ypred = np.round(clfGPC.predict(xtest))
-# print("\nGPC")
-# print("Explained_Variance:\t",explained_variance_score(ytest,ypred))
-# print("Clf Score:\t\t",clfGPC.score(xtest,ytest))
-# print("Accuracy Score:\t\t",accuracy_score(ytest,ypred))
-# scoreGPC = measurePerformance(clfGPC,xtest,ytest)
-# print("Confusion Matrix:\n",confusion_matrix(ytest,ypred))
-# colNames, data = load_data('unknowns.csv')
-# ypred = clfGPC.predict(data)
-# write_data('scoreGPC.csv', ypred)
 
 # kernel = 1.0*RBF(1.0) + DotProduct() + WhiteKernel()
-# clfGPR = GaussianProcessRegressor(kernel=kernel,random_state=random_state).fit(xtrain,ytrain)
-# #clfGPR = gaussianprocessregressor(random_state=random_state).fit(xtrain,ytrain)
-# ypred = np.round(clfGPR.predict(xtest))
-# print("\nGPR")
-# print("Explained_Variance:\t",explained_variance_score(ytest,ypred))
-# print("CLF Score:\t\t",clfGPR.score(xtest,ytest))
-# print("Accuracy Score:\t\t",accuracy_score(ytest,ypred))
-# scoreGPR = measurePerformance(clfGPR,xtest,ytest)
-# print("Confusion Matrix:\n",confusion_matrix(ytest,ypred))
-# colNames, data = load_data('unknowns.csv')
-# ypred = clfGPR.predict(data)
-# write_data('scoreGPR.csv', ypred)
 
-# print("\nTraining Validation")
-# print("LR")
-# measurePerformance(clfLR,xtrain,ytrain)
-# print("MLP")
-# measurePerformance(clfMLP,xtrain,ytrain)
-# print("SVC")
-# measurePerformance(clfSVC,xtrain,ytrain)
-# print("SVR")
-# measurePerformance(clfSVR,xtrain,ytrain)
-# print("GPC")
-# measurePerformance(clfGPC,xtrain,ytrain)
-# print("GPR")
-# measurePerformance(clfGPR,xtrain,ytrain)
+# # clfSVC = make_pipeline(StandardScaler(), SVC(C=1.5, gamma=1.5, kernel=kernel)).fit(xtrain,ytrain)
+# # #clfSVC = svc(c=1.5, gamma=1.5, kernel='rbf', random_state=random_state).fit(xtrain,ytrain)
+# # ypred = np.round(clfSVC.predict(xtest))
+# # print("\nSVC")
+# # print("Explained_Variance:\t",explained_variance_score(ytest,ypred))
+# # print("CLF Score:\t\t",clfSVC.score(xtest,ytest))
+# # print("Accuracy Score:\t\t",accuracy_score(ytest,ypred))
+# # scoreSVC = measurePerformance(clfSVC,xtest,ytest)
+# # print("Confusion Matrix:\n",confusion_matrix(ytest,ypred))
+# # colNames, data = load_data('unknowns.csv')
+# # ypred = clfSVC.predict(data)
+# # write_data('scoreSVC.csv', ypred)
+
+# clfSVR = make_pipeline(StandardScaler(), SVR(C=1.5, gamma=1.5, kernel=kernel)).fit(xtrain,ytrain)
+# # clfSVR = svr(c=1.5, gamma=1.5, kernel='rbf').fit(xtrain,ytrain)
+# #ypred = np.round(clfSVR.predict(xtest))
+# # print("\nSVR")
+# # print("Explained_Variance:\t",explained_variance_score(ytest,ypred))
+# # print("CLF Score:\t\t",clfSVR.score(xtest,ytest))
+# # print("Accuracy Score:\t\t",accuracy_score(ytest,ypred))
+# # scoreSVR = measurePerformance(clfSVR,xtest,ytest)
+# # print("Confusion Matrix:\n",confusion_matrix(ytest,ypred))
+# # colNames, data = load_data('unknowns.csv')
+# # ypred = clfSVR.predict(data)
+# # write_data('scoreSVR.csv', ypred)
+
+# # clfGPC = GaussianProcessClassifier(kernel=kernel,max_iter_predict=100,random_state=random_state).fit(xtrain,ytrain)
+# # #clfGPC = gaussianprocessclassifier(random_state=random_state).fit(xtrain,ytrain)
+# # ypred = np.round(clfGPC.predict(xtest))
+# # print("\nGPC")
+# # print("Explained_Variance:\t",explained_variance_score(ytest,ypred))
+# # print("Clf Score:\t\t",clfGPC.score(xtest,ytest))
+# # print("Accuracy Score:\t\t",accuracy_score(ytest,ypred))
+# # scoreGPC = measurePerformance(clfGPC,xtest,ytest)
+# # print("Confusion Matrix:\n",confusion_matrix(ytest,ypred))
+# # colNames, data = load_data('unknowns.csv')
+# # ypred = clfGPC.predict(data)
+# # write_data('scoreGPC.csv', ypred)
+
+# # kernel = 1.0*RBF(1.0) + DotProduct() + WhiteKernel()
+# # clfGPR = GaussianProcessRegressor(kernel=kernel,random_state=random_state).fit(xtrain,ytrain)
+# # #clfGPR = gaussianprocessregressor(random_state=random_state).fit(xtrain,ytrain)
+# # ypred = np.round(clfGPR.predict(xtest))
+# # print("\nGPR")
+# # print("Explained_Variance:\t",explained_variance_score(ytest,ypred))
+# # print("CLF Score:\t\t",clfGPR.score(xtest,ytest))
+# # print("Accuracy Score:\t\t",accuracy_score(ytest,ypred))
+# # scoreGPR = measurePerformance(clfGPR,xtest,ytest)
+# # print("Confusion Matrix:\n",confusion_matrix(ytest,ypred))
+# # colNames, data = load_data('unknowns.csv')
+# # ypred = clfGPR.predict(data)
+# # write_data('scoreGPR.csv', ypred)
+
+# # print("\nTraining Validation")
+# # print("LR")
+# # measurePerformance(clfLR,xtrain,ytrain)
+# # print("MLP")
+# # measurePerformance(clfMLP,xtrain,ytrain)
+# # print("SVC")
+# # measurePerformance(clfSVC,xtrain,ytrain)
+# # print("SVR")
+# # measurePerformance(clfSVR,xtrain,ytrain)
+# # print("GPC")
+# # measurePerformance(clfGPC,xtrain,ytrain)
+# # print("GPR")
+# # measurePerformance(clfGPR,xtrain,ytrain)
 
 
-################################################## 7) ##################################################
+# ################################################## 7) ##################################################
 
-ypred = clfSVR.predict(xtest).astype(int)
+# ypred = clfSVR.predict(xtest).astype(int)
 
 
 
@@ -286,9 +286,11 @@ ypred = clfSVR.predict(xtest).astype(int)
 
 
 def run_algo1(file_path, debug=False):
-    
+    loaded_model = pickle.load(open("C://Users//Edwin//OneDrive//Documents//UCSB//ECE 157A//Final//Final_Project_Phase1_Extra_Credit//Final_Project_Phase1//Final_Project//media//algorithms//saved_models//regression.sav", 'rb'))
     colNames, data = load_data(file_path)
-    ypred = np.round(clfSVR.predict(data))
+    
+
+    ypred = np.round(loaded_model.predict(data))
     
     # Load file_path instead of unknowns.csv
     # Do the same processing you did to

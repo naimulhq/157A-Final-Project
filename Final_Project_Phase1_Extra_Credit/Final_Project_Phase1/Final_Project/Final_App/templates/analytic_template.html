@@ -55,14 +55,19 @@
         <hr>
         {% for attribute in a %}
         <div class = "row">
-            <div class = "col"><a href="">{{attribute.analytic_name}}</a></div>
+            <div class = "col">
+                <form  method="post" enctype="multipart/form-data" id="result" >
+                    {% csrf_token %}
+                    <button class="btn btn-link" value='{{attribute.result_plot}}' name='result'>{{attribute.analytic_name}}</button>
+                </form>
+            </div>
             <div class = "col">{{attribute.DataSet_name}}</div>
             <div class = "col">{{attribute.Algo_name}}</div>
             <div class = "col">{{attribute.time}}</div>
             <div class = "col">
-                <form  method="post" enctype="multipart/form-data" id="delete" >
+                <form  method="post" enctype="multipart/form-data" id="deletea" >
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-primary btn-danger btn-sm" value='{{attribute.id}}' name='delete'>delete</button>
+                    <button type="submit" class="btn btn-primary btn-danger btn-sm" value='{{attribute.id}}' name='deletea'>delete</button>
                 </form>
             </div>
         </div>

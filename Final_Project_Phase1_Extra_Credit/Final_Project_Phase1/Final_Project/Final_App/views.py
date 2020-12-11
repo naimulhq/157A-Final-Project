@@ -67,6 +67,7 @@ class YourViewName(APIView):
                                 'algorithms':get_algorithm_list(),'a':a},status=status.HTTP_200_OK)
 
     def post(self, request):
+        a = AnalyticModel.objects.all()
         # Upload form
         if 'upload' in request.data:
             file_serializer = FileSerializer(data=request.data)
@@ -77,7 +78,7 @@ class YourViewName(APIView):
             if(name.find('.csv') == -1):
                 
                 return Response({'status': 'Wrong File Type. Upload only .csv files','f':f, 'l' : len(f), 'files': get_file_list(),
-                'algorithms':get_algorithm_list()},status=status.HTTP_201_CREATED)
+                'algorithms':get_algorithm_list(),'a':a},status=status.HTTP_201_CREATED)
             else:    
                 tName = request.data["file_name"]
                 
@@ -89,7 +90,7 @@ class YourViewName(APIView):
                     exist = None
                 file_serializer.save()
                 return Response({'status': 'Upload successful!','f':f, 'l' : len(f), 'files': get_file_list(),
-                                'algorithms':get_algorithm_list()},status=status.HTTP_201_CREATED)
+                                'algorithms':get_algorithm_list(),'a':a},status=status.HTTP_201_CREATED)
        
         elif 'delete' in request.data:
             file_id = request.data['delete']
@@ -98,7 +99,16 @@ class YourViewName(APIView):
             fdel.delete()
             f = FileModel.objects.all()
             return Response({'f':f, 'l' : len(f), 'files': get_file_list(),
-                                'algorithms':get_algorithm_list()},status=status.HTTP_200_OK)
+                                'algorithms':get_algorithm_list(),'a':a},status=status.HTTP_200_OK)
+
+        elif 'deletea' in request.data:
+            print("HERERE\n\n\n",request.data)
+            file_id = request.data['deletea']
+            fdel = AnalyticModel.objects.get(pk=file_id)
+            fdel.delete()
+            f = FileModel.objects.all()
+            return Response({'f':f, 'l' : len(f), 'files': get_file_list(),
+                                'algorithms':get_algorithm_list(),'a':a},status=status.HTTP_200_OK)
 
         elif 'analytic' in request.data:
             f = FileModel.objects.all()
@@ -131,9 +141,21 @@ class YourViewName(APIView):
             'f': f, 'l' : len(f)},
             status=status.HTTP_200_OK)
 
+        elif 'result' in request.data:
+            resultplot = request.data['result']
+            f = FileModel.objects.all()
+            return Response({'f':f, 'l' : len(f), 'files': get_file_list(), 'result_plot':resultplot,
+                                'algorithms':get_algorithm_list()},status=status.HTTP_200_OK)
+
+        elif 'close' in request.data:
+            f = FileModel.objects.all()
+            a = AnalyticModel.objects.all()
+            return Response({'f':f, 'l' : len(f), 'files': get_file_list(),
+                                'algorithms':get_algorithm_list(), 'a':a},status=status.HTTP_200_OK)
+
         else:
             f = FileModel.objects.all()
             return Response({'f':f, 'l' : len(f), 'files': get_file_list(),
-                            'algorithms':get_algorithm_list()},status=status.HTTP_400_BAD_REQUEST)
+                            'algorithms':get_algorithm_list(),'a':a},status=status.HTTP_400_BAD_REQUEST)
 
                             

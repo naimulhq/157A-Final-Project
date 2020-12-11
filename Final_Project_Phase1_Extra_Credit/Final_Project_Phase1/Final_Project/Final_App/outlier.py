@@ -9,7 +9,9 @@ import pathlib
 from mpld3 import plugins
 import plotly.express as px
 import plotly.io as pio
+import pickle
 selected_features = ['TRB','AST','PTS']
+
 
 def generating_scores(data, scores,modelName):
     sortedIndices = np.argsort(scores)
@@ -106,50 +108,50 @@ def train_isolation_forest(data, contamination, random_state):
     return IsolationForest(contamination=contamination,random_state=random_state).fit(data[selected_features])
 
 
-path = pathlib.Path(__file__).parents[1]
+# path = pathlib.Path(__file__).parents[1]
 
-# path = "C://Users//Edwin//OneDrive//Documents//UCSB//ECE 157A//Final_Project_Phase1_Extra_Credit//Final_Project_Phase1//Final_Project//media//algorithms//saved_models//nba_players_stats_19_20_per_game.csv"
-# data = load_data(path)
-#plotDistributions(data)
-# plotScatter(data)
+# # path = "C://Users//Edwin//OneDrive//Documents//UCSB//ECE 157A//Final_Project_Phase1_Extra_Credit//Final_Project_Phase1//Final_Project//media//algorithms//saved_models//nba_players_stats_19_20_per_game.csv"
+# # data = load_data(path)
+# #plotDistributions(data)
+# # plotScatter(data)
 
-data = load_clean_data(path/'saved_models//nba_players_stats_19_20_per_game.csv')
+# data = load_clean_data(path/'saved_models//nba_players_stats_19_20_per_game.csv')
 
-kernel = 'rbf'
-random_state = 42
-contamination = 0.05
+# kernel = 'rbf'
+# random_state = 42
+# contamination = 0.05
 
-clfSVM = train_one_class_svm(data,kernel,random_state)
-# clfEE = train_elliptic_envelope(data,contamination,random_state)
-# clfIF =  train_isolation_forest(data,contamination,random_state)
+# clfSVM = train_one_class_svm(data,kernel,random_state)
+# # clfEE = train_elliptic_envelope(data,contamination,random_state)
+# # clfIF =  train_isolation_forest(data,contamination,random_state)
 
-scoreSVM = clfSVM.decision_function(data[selected_features])
-# scoreEE = clfEE.decision_function(data[selected_features])
-# scoreIF = clfIF.decision_function(data[selected_features])
+# scoreSVM = clfSVM.decision_function(data[selected_features])
+# # scoreEE = clfEE.decision_function(data[selected_features])
+# # scoreIF = clfIF.decision_function(data[selected_features])
 
-topThreeIndexSVM = np.argsort(scoreSVM)[:3]
-topThreeSVM = data.iloc[topThreeIndexSVM]
+# topThreeIndexSVM = np.argsort(scoreSVM)[:3]
+# topThreeSVM = data.iloc[topThreeIndexSVM]
 
-# topThreeIndexEE = np.argsort(scoreEE)[:3]
-# topThreeEE = data.iloc[topThreeIndexEE]
+# # topThreeIndexEE = np.argsort(scoreEE)[:3]
+# # topThreeEE = data.iloc[topThreeIndexEE]
 
-# topThreeIndexIF = np.argsort(scoreIF)[:3]
-# topThreeIF = data.iloc[topThreeIndexIF]
+# # topThreeIndexIF = np.argsort(scoreIF)[:3]
+# # topThreeIF = data.iloc[topThreeIndexIF]
 
-outliersSVM = scoreSVM < 0
-outliersSansTopThreeSVM = outliersSVM.copy()
-outliersSansTopThreeSVM[topThreeIndexSVM] = False
+# outliersSVM = scoreSVM < 0
+# outliersSansTopThreeSVM = outliersSVM.copy()
+# outliersSansTopThreeSVM[topThreeIndexSVM] = False
 
-labels = []
+# labels = []
 
-for i in range(outliersSVM.shape[0]):
-    label = outliersSVM[i]
-    if label == True:
-        labels.append('inlier') 
-    else:
-        labels.append('outlier')
-labels = np.array(labels)
-labels[topThreeIndexSVM] = 'TopThree'
+# for i in range(outliersSVM.shape[0]):
+#     label = outliersSVM[i]
+#     if label == True:
+#         labels.append('inlier') 
+#     else:
+#         labels.append('outlier')
+# labels = np.array(labels)
+# labels[topThreeIndexSVM] = 'TopThree'
 # outliersEE = scoreEE < 0
 # outliersSansTopThreeEE = outliersEE.copy()
 # outliersSansTopThreeEE[topThreeIndexEE] = False
@@ -172,8 +174,39 @@ labels[topThreeIndexSVM] = 'TopThree'
 
 
 def run_algo1(file_path, debug=False):
-    
+    loaded_model = pickle.load(open("C://Users//Edwin//OneDrive//Documents//UCSB//ECE 157A//Final//Final_Project_Phase1_Extra_Credit//Final_Project_Phase1//Final_Project//media//algorithms//saved_models//outlier.sav", 'rb'))
+    data = load_data(file_path)
     data = load_clean_data(file_path)
+    scoreSVM = loaded_model.decision_function(data[selected_features])
+    # scoreEE = clfEE.decision_function(data[selected_features])
+    # scoreIF = clfIF.decision_function(data[selected_features])
+
+    topThreeIndexSVM = np.argsort(scoreSVM)[:3]
+    topThreeSVM = data.iloc[topThreeIndexSVM]
+
+    # topThreeIndexEE = np.argsort(scoreEE)[:3]
+    # topThreeEE = data.iloc[topThreeIndexEE]
+
+    # topThreeIndexIF = np.argsort(scoreIF)[:3]
+    # topThreeIF = data.iloc[topThreeIndexIF]
+
+    outliersSVM = scoreSVM < 0
+    outliersSansTopThreeSVM = outliersSVM.copy()
+    outliersSansTopThreeSVM[topThreeIndexSVM] = False
+
+    labels = []
+
+    for i in range(outliersSVM.shape[0]):
+        label = outliersSVM[i]
+        if label == True:
+            labels.append('inlier') 
+        else:
+            labels.append('outlier')
+    labels = np.array(labels)
+    labels[topThreeIndexSVM] = 'TopThree'
+
+
+
     # data = preprocess_data(colNames,data)
     # ypred = clfSVM.predict(data)
     # Load file_path instead of unknowns.csv
@@ -198,7 +231,7 @@ def run_algo1(file_path, debug=False):
     # fig = px.scatter_3d(df, x='sepal_length', y='sepal_width', z='petal_width',
     #           color='species')
     data['labels'] = labels
-    fig = px.scatter_3d(data,x=selected_features[0], y=selected_features[1], z = selected_features[2],color='labels')
+    fig = px.scatter_3d(data,x=selected_features[0], y=selected_features[1], z = selected_features[2],color='labels', title='3D Scatter Plot')
                         # labels={'0': 'inlier', '1': "outlier",'2':"Top Three"})
     
     # fig.show()

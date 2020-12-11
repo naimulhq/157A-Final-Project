@@ -13,6 +13,7 @@ import csv
 import pathlib
 import mpld3
 from mpld3 import plugins
+import pickle
 
 
 def load_data(filename):
@@ -72,30 +73,30 @@ def write_data(filename, ypred):
 
 
 
-random_state = 42
-path = pathlib.Path(__file__).parents[1]
-# print("\n\n\n\HERERERRER" ,path)
-colNames, data = load_data(path/'saved_models//diabetes.csv')
-colNames, xs, ys = seperate_labels(colNames,data)
-#colNames, xs = preprocess_data(colNames,xs)
+# random_state = 42
+# path = pathlib.Path(__file__).parents[1]
+# # print("\n\n\n\HERERERRER" ,path)
+# colNames, data = load_data(path/'saved_models//diabetes.csv')
+# colNames, xs, ys = seperate_labels(colNames,data)
+# #colNames, xs = preprocess_data(colNames,xs)
 
-xtrain, xtest, ytrain, ytest = train_test_split(xs,ys,test_size=0.25,random_state=random_state)
+# xtrain, xtest, ytrain, ytest = train_test_split(xs,ys,test_size=0.25,random_state=random_state)
 
-# clf = DecisionTreeClassifier(random_state=random_state).fit(xtrain,ytrain)
-clf1 = svm.SVC(random_state=random_state).fit(xtrain,ytrain) 
-# clf2 = LinearDiscriminantAnalysis().fit(xtrain,ytrain)
-# clf3 = GaussianNB().fit(xtrain,ytrain)
-# kneigh = KNeighborsClassifier(n_neighbors=16).fit(xtrain,ytrain)
+# # clf = DecisionTreeClassifier(random_state=random_state).fit(xtrain,ytrain)
+# clf1 = svm.SVC(random_state=random_state).fit(xtrain,ytrain) 
+# # clf2 = LinearDiscriminantAnalysis().fit(xtrain,ytrain)
+# # clf3 = GaussianNB().fit(xtrain,ytrain)
+# # kneigh = KNeighborsClassifier(n_neighbors=16).fit(xtrain,ytrain)
 
-#hyperparameter(xtrain, xtest, ytrain, ytest)
-#print(export_text(clf,feature_names = colNames))
+# #hyperparameter(xtrain, xtest, ytrain, ytest)
+# #print(export_text(clf,feature_names = colNames))
 
-# ypred_dt = clf.predict(xtest)
-# print("Decision Tree\nAccuracy:\t", accuracy_score(ytest,ypred_dt))
-# print(confusion_matrix(ytest,ypred_dt))
+# # ypred_dt = clf.predict(xtest)
+# # print("Decision Tree\nAccuracy:\t", accuracy_score(ytest,ypred_dt))
+# # print(confusion_matrix(ytest,ypred_dt))
 
-ypred_svm = clf1.predict(xtest)
-# print("\nSVM\nAccuracy:\t",accuracy_score(ytest,ypred_svm ))
+# ypred_svm = clf1.predict(xtest)
+# # print("\nSVM\nAccuracy:\t",accuracy_score(ytest,ypred_svm ))
 # print(confusion_matrix(ytest,ypred_svm ))
 
 # ypred_LDA = clf2.predict(xtest)
@@ -112,9 +113,10 @@ ypred_svm = clf1.predict(xtest)
 
 def run_algo1(file_path, debug=False):
     
+    loaded_model = pickle.load(open("C://Users//Edwin//OneDrive//Documents//UCSB//ECE 157A//Final//Final_Project_Phase1_Extra_Credit//Final_Project_Phase1//Final_Project//media//algorithms//saved_models//classifier.sav", 'rb'))
     colNames, data = load_data(file_path)
     #colNames, data = preprocess_data(colNames,data)
-    ypred = clf1.predict(data)
+    ypred = loaded_model.predict(data)
     # Load file_path instead of unknowns.csv
     # Do the same processing you did to
     # get your unknowns.csv results from your model.
