@@ -1,0 +1,74 @@
+<!-- Run Analytic html -->
+<form method="post" enctype="multipart/form-data" id='analytic'>
+    {% csrf_token %}
+    <div class="container">
+        <div class="row">
+            <!-- select dataset to work on -->
+            <div class="col">
+            <h5>Select Dataset</h5>
+            {% if files|length < 1 %}
+                <p class="text-info">Please import csv</p>
+            {% else %}
+            {% for file_name in files %}
+            <div class="myradio">
+                <label for="file_name{{ forloop.counter }}"><input id="file_name{{ forloop.counter }}" name="file_name" type="radio" value="{{ file_name }}" required> {{ file_name }}</label>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    
+        <div class="col">
+            <h5>Select Algorithm</h5>
+            {% if algorithms|length < 1 %}
+                <p class="text-info">Contact the admin to upload algorithms</p>
+            {% else %}
+            {% for algorithm in algorithms %}
+            <div class="myradio">
+                <label for="{{ algorithm }}"><input id="{{ algorithm }}" name="algorithm" type="radio" value="{{ algorithm }}" required> {{ algorithm }}</label>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    
+        </div>
+        <button type="submit" class="btn btn-primary" id='run_analytic' name='analytic'> Run Analytic</button>
+        </div>
+    </form>
+    <hr/>
+
+<form method="post" enctype="multipart/form-data" id='analytic'>
+    {% csrf_token %}
+    <div class="container">
+        <div class="row">
+            <!-- select dataset to work on -->
+            <div class="col">
+            <h5>Analytic History</h5>
+            <table>
+                {% if l != 0 %}
+                <tr>
+                    <th>Analytic Name</th>
+                    <th>Data Set</th>
+                    <th>Algorithm</th>
+                    <th>Date Published</th>
+                </tr>
+                    {% for attribute in a %}     
+                        <tr>
+                            <th>{{attribute.analytic_name}}</th>
+                            <th>{{attribute.DataSet_name}}</th>
+                            <th>{{attribute.Algorithm_name}}</th>
+                            <th>{{attribute.time}}</th>
+                            <th>
+                                <form  method="post" enctype="multipart/form-data" id="delete" >
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary btn-danger btn-sm" value='{{file.id}}' name='delete'>delete</button>
+                                </form>
+                            </th>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                <!-- <h5>No Files</h5> -->
+                    <span class="text-muted">No Files</span>
+                {% endif %}
+            </table>
+    </form>
+    <hr/>
