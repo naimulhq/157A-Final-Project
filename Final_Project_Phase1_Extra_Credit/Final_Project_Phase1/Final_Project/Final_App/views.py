@@ -59,7 +59,8 @@ class YourViewName(APIView):
     
     def get(self, request):
         f = FileModel.objects.all()
-        a = AnalyticModel.objects.all()     
+        a = AnalyticModel.objects.all()
+        print(a)     
         #l = len(f)
         return Response({'f': f, 'l' : len(f), 'files': get_file_list(),
                                 'algorithms':get_algorithm_list(),'a':a},status=status.HTTP_200_OK)
@@ -103,7 +104,7 @@ class YourViewName(APIView):
             analyticresult = run_analytic(file_path, algo_obj)
 
             to_save = {'analytic_name': query_file_name+'_'+query_algorithm,
-                        'result_plot': analyticresult}#,'DataSet_name':query_file_name,'Algo_name':query_algorithm}
+                        'result_plot': analyticresult,'DataSet_name':query_file_name,'Algo_name':query_algorithm}
             analytic_serializer = AnalyticSerializer(data=to_save)
             if analytic_serializer.is_valid():
                 analytic_serializer.save()

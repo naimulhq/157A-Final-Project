@@ -41,34 +41,32 @@
     <div class="container">
         <div class="row">
             <!-- select dataset to work on -->
-            <div class="col">
             <h5>Analytic History</h5>
-            <table>
-                {% if l != 0 %}
-                <tr>
-                    <th>Analytic Name</th>
-                    <th>Data Set</th>
-                    <th>Algorithm</th>
-                    <th>Date Published</th>
-                </tr>
-                    {% for attribute in a %}     
-                        <tr>
-                            <th>{{attribute.analytic_name}}</th>
-                            <th>{{attribute.DataSet_name}}</th>
-                            <th>{{attribute.Algorithm_name}}</th>
-                            <th>{{attribute.time}}</th>
-                            <th>
-                                <form  method="post" enctype="multipart/form-data" id="delete" >
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-primary btn-danger btn-sm" value='{{file.id}}' name='delete'>delete</button>
-                                </form>
-                            </th>
-                        </tr>
-                    {% endfor %}
-                {% else %}
-                <!-- <h5>No Files</h5> -->
-                    <span class="text-muted">No Files</span>
-                {% endif %}
-            </table>
+            <hr>
+            <br>
+        </div>
+        <div class = "row">
+            <div class = "col">Name</div>
+            <div class = "col">Dataset Name</div>
+            <div class = "col">Algorithm Name</div>
+            <div class = "col">Time Published</div>
+            <div class = "col"></div>
+        </div>
+        <hr>
+        {% for attribute in a %}
+        <div class = "row">
+            <div class = "col"><a href="">{{attribute.analytic_name}}</a></div>
+            <div class = "col">{{attribute.DataSet_name}}</div>
+            <div class = "col">{{attribute.Algo_name}}</div>
+            <div class = "col">{{attribute.time}}</div>
+            <div class = "col">
+                <form  method="post" enctype="multipart/form-data" id="delete" >
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary btn-danger btn-sm" value='{{attribute.id}}' name='delete'>delete</button>
+                </form>
+            </div>
+        </div>
+        <hr>         
+            {% endfor %}
     </form>
     <hr/>

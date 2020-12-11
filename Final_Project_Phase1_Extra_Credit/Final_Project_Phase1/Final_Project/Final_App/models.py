@@ -38,5 +38,5 @@ class AnalyticModel(models.Model):
     analytic_name = models.CharField(max_length=50)
     result_plot = models.CharField(max_length=10000000)
     time = models.DateTimeField(default=timezone.now)
-    # DataSet_name = models.CharField(max_length=50)
-    # Algo_name = models.CharField(max_length=50)
+    DataSet_name = models.CharField(max_length=50)
+    Algo_name = models.CharField(max_length=50)
