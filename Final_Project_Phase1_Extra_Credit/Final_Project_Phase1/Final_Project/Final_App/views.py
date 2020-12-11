@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 # Create your views here.
 from django.http import HttpResponse
 from rest_framework.views import APIView
@@ -74,9 +75,18 @@ class YourViewName(APIView):
             name = data.name
             f = FileModel.objects.all()
             if(name.find('.csv') == -1):
+                
                 return Response({'status': 'Wrong File Type. Upload only .csv files','f':f, 'l' : len(f), 'files': get_file_list(),
-                                'algorithms':get_algorithm_list()},status=status.HTTP_201_CREATED)
+                'algorithms':get_algorithm_list()},status=status.HTTP_201_CREATED)
             else:    
+                tName = request.data["file_name"]
+                
+                try: 
+                    exist = FileModel.objects.get(file_name = tName)
+                    exist.file_content.delete()
+                    exist.delete()
+                except ObjectDoesNotExist:
+                    exist = None
                 file_serializer.save()
                 return Response({'status': 'Upload successful!','f':f, 'l' : len(f), 'files': get_file_list(),
                                 'algorithms':get_algorithm_list()},status=status.HTTP_201_CREATED)
